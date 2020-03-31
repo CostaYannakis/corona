@@ -95,3 +95,121 @@ def mycss():
     css += '</style>\n'
 
     return css
+
+def mapscripthtml():
+    maps = '<p><div id="geochart-colors" style="width: 900px; height: 500px;display: inline-block"></div></p>'
+    return maps
+
+
+def mapjavascript():
+    mapsjv="          google.charts.load('current', {\n"
+    mapsjv +="        'packages':['geochart'],\n"
+
+
+    mapsjv +="    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'\n"
+    mapsjv += "});\n"
+    mapsjv += "google.charts.setOnLoadCallback(drawRegionsMap);\n"
+
+    mapsjv += "function drawRegionsMap() {\n"
+    mapsjv += "var data = google.visualization.arrayToDataTable([\n"
+    mapsjv += "['Province',   'rate'],\n"
+    mapsjv += "['Victoria', 100], ['New South Wales', -8], ['AU-ACT', 6], ['Queensland', -24],\n"
+    mapsjv += "['AU-TAS', 12], ['Western Australia', -3], ['South Australia', 3],\n"
+    mapsjv += "['Northern Territory', 200]\n"
+    mapsjv += "]);\n"
+
+    mapsjv += "var optionsMAP = {\n"
+    mapsjv += "region: 'AU', // Africa\n"
+    mapsjv += "colorAxis: {colors: ['#FFFFFF', 'grey', 'black']},\n"
+    mapsjv += "backgroundColor: '#81d4fa',\n"
+    mapsjv += "datalessRegionColor: 'blue',\n"
+    mapsjv += "defaultColor: '#FFFFFF',\n"
+    mapsjv += "resolution: 'provinces'\n"
+    mapsjv += "};\n"
+
+    mapsjv += "var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));\n"
+    mapsjv += "chart.draw(data, optionsMAP);\n"
+    mapsjv += "};\n"
+    return mapsjv
+
+def createfile(filename, list_to_append, the_date_time):
+    f = open((filename + ".csv"), "a+")
+    f.write(the_date_time + ",")
+    for i in range(len(list_to_append)):
+        if i == len(list_to_append)-1:
+            f.write(list_to_append[i])
+        else:
+            f.write(list_to_append[i] + ",")
+    f.write('\n')
+    f.close()
+
+a = [0,1,2,5,10,12,59]
+alen = len(a)
+newlist =[]
+for i in range(alen):
+    if i == 0:
+
+        newlist.append(a[i])
+        newlist.append(a[i+1]-a[i])
+    elif i == alen-1:
+        print('end')
+    else:
+        newlist.append(a[i+1]-a[i])
+
+print(newlist)
+
+
+#########################################################
+# This code extracts the daily cases from cumulative data
+#########################################################
+def dailycases(mylist):
+    mylistlength= len(mylist)
+    dailycaselist = []
+    for i in range(mylistlength-1):
+        if i == 0:
+            dailycaselist.append(mylist[i])
+            dailycaselist.append(mylist[i+1]-mylist[i])
+        elif i == alen-1:
+            print('end')
+        elif i == alen:
+            print('end')
+        else:
+            dailycaselist.append(mylist[i+1]-mylist[i])
+    return dailycaselist
+
+print(dailycases(a))
+
+def createdayslistforpowerBI(myList):
+    days = [*range(1, len(myList)+1, 1)]
+    days.insert(0, "Days")
+    return days
+
+def addheaderList(theheader,thelist):
+    thelist.insert(0, theheader)
+    return thelist
+
+def createcsvfrom2lists(filename,list1,list2):
+    with open(filename, 'w', newline='') as f:
+        thewriter = csv.writer(f)
+        thewriter.writerow(list1)
+        thewriter.writerow(list2)
+        f.close()
+
+growth = [72, 50, 47, 80, 75, 116, 113, 110, 280, 478, 133, 362, 320, 446, 333]
+
+
+
+
+def growthrate(thelist):
+    newgrowthlist = []
+    for i in range (len(thelist)):
+        if i == 0:
+            print("do nothing")
+        else:
+            newgrowthlist.append((thelist[i]/thelist[i-1]))
+    return newgrowthlist
+
+
+
+
+print(growthrate(growth))
